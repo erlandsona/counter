@@ -1,0 +1,5 @@
+.psc-package/
+.psci_modules/
+ebin/
+erl_crash.dump
+output/
