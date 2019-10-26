@@ -1,4 +1,4 @@
--module(counter@foreign).
+-module(proc@foreign).
 
 -export([self_/0]).
 

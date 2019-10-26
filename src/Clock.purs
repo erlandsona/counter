@@ -21,9 +21,12 @@ start = run 0
 
 run :: Int -> (Int -> Effect Unit) -> Effect Unit
 run count f = do
-  _ <- f count
-  _ <- sleep 1000
+  f count
+  sleep 1000
   run (inc count) f
 
 
 foreign import sleep :: Int -> Effect Unit
+
+tick :: Int -> Effect Unit
+tick int = sleep $ 1000 * int

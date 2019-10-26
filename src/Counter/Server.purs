@@ -1,13 +1,13 @@
 module Counter.Server where
 
-import Counter.Core (Msg(..), Count(..), inc)
+import Counter.Core (Msg(..), inc)
 import Effect (Effect)
 import Erl.Process.Raw (receive, send)
 import Prelude
 
 
-run :: Int -> Effect Int
-run count = listen count >>= run
+run :: Int -> Effect Unit
+run count = pure unit <* (run =<< listen count)
 
 {--
   LambdaCase-style syntax
@@ -21,9 +21,9 @@ run count = listen count >>= run
 listen :: Int -> Effect Int
 listen count =
   receive >>= case _ of
-    Tick -> do
-        pure (inc count)
+    Tick ->
+      pure (inc count)
 
-    State pid -> do
-        _ <- send pid (Count count)
-        pure count
+    State pid ->
+        send pid count
+        *> pure count
