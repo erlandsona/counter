@@ -3,12 +3,16 @@ module Logger where
 
 import Effect.Console (log)
 import Effect (Effect)
-import Erl.Process.Raw (Pid, receive, spawn)
+import Erl.Process (Process, spawn)
 import Prelude
 
 
-start :: Effect Pid
-start = spawn log_
+start :: Effect (Process String)
+start = spawn server
 
-log_ :: Effect Unit
-log_ = (receive :: Effect String) >>= (show >>> log)
+server :: Effect String -> Effect Unit
+server receive = logger
+    where
+        logger = do
+            receive >>= log
+            logger

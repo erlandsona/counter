@@ -1,39 +1,35 @@
 module Main where
 
-{-- import Clock as Clock --}
+import Clock as Clock
 import Counter as Counter
 import Logger as Logger
 import Prelude
 import Effect (Effect)
-import Erl.Process.Raw (send)
+import Erl.Process (send)
 
 main :: Effect Unit
 main = do
-  logger <- Logger.start
-  _ <- send logger "Starting at 0"
+  loggerProc <- Logger.start
+
+  send loggerProc "Starting at 0"
 
   counter <- Counter.start 0
 
-  state1 <- Counter.state counter
+  Clock.tick 1
+  Counter.state counter loggerProc
 
-  {-- _ <- send logger $ "Count is " <> show state1 --}
+  Counter.tick counter
+  Counter.tick counter
+  Counter.tick counter
 
-  {-- _ <- Counter.tick counter --}
-  {-- _ <- Counter.tick counter --}
-  {-- _ <- Counter.tick counter --}
+  Clock.tick 1
+  Counter.state counter loggerProc
 
-  {-- state2 <- Counter.state counter --}
+  Counter.tick counter
+  Counter.tick counter
 
-  {-- _ <- send logger $ "Count is " <> show state2 --}
-
-  {-- _ <- Counter.tick counter --}
-  {-- _ <- Counter.tick counter --}
-
-  {-- state3 <- Counter.state counter --}
-
-  {-- _ <- send logger $ "Count is " <> show state3 --}
-
-  pure unit
+  Clock.tick 1
+  Counter.state counter loggerProc
 
 
   {-- Clock.start \tick -> do --}
