@@ -4,6 +4,7 @@
   "source": "https://github.com/purerl/package-sets.git",
   "depends": [
     "console",
+    "control",
     "erl-process",
     "prelude",
     "psci-support"

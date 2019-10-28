@@ -1,13 +1,14 @@
 module Counter.Server where
 
+{-- import Control.Lazy (fix) --}
 import Counter.Core (Msg(..), inc)
 import Effect (Effect)
 import Erl.Process.Raw (receive, send)
 import Prelude
 
 
-run :: Int -> Effect Unit
-run count = pure unit <* (run =<< listen count)
+{-- run :: Int -> Effect Unit --}
+{-- run n = listen n --}
 
 {--
   LambdaCase-style syntax
@@ -18,12 +19,13 @@ run count = pure unit <* (run =<< listen count)
       case a of
           ...
 --}
-listen :: Int -> Effect Int
-listen count =
+-- Curious how to use recursion schemes to factor this run call...
+run :: Int -> Effect Unit
+run count = run =<< do
   receive >>= case _ of
-    Tick ->
-      pure (inc count)
+    Tick -> do
+        pure $ inc count
 
-    State pid ->
+    State pid -> do
         send pid count
-        *> pure count
+        pure count

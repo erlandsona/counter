@@ -16,6 +16,6 @@ tick pid = send pid Tick
 state :: Pid -> Effect Int
 state pid = do
   me <- self
-  _ <- send pid (State me)
+  send pid (State me)
   receive
 
