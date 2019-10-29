@@ -10,6 +10,10 @@ main :: Effect Unit
 main = do
   repl <- Console.start
   counter <- Counter.start 0
+  Console.log repl "Count is test"
+  Console.log repl "Count is test"
+  Console.log repl "Count is test"
+  Console.log repl "Count is test"
 
   state1 <- Counter.state counter
 
@@ -33,7 +37,7 @@ main = do
   Console.log repl $ "Count is " <> show state3
   Clock.tick 1
 
-  Console.log repl $ "Signing off muchachos!"
+  Console.log repl "Signing off muchachos!"
 
   {-- Clock.start \tick -> do --}
   {--    log $ "Hello Erlang!" <> " Woot!" <> show tick --}

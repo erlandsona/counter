@@ -5,13 +5,13 @@ import Effect (Effect)
 import Prelude
 
 start :: (Int -> Effect Unit) -> Effect Unit
-start = run 0
+start = flip run 0
 
-run :: Int -> (Int -> Effect Unit) -> Effect Unit
-run count f = do
+run :: (Int -> Effect Unit) -> Int -> Effect Unit
+run f count = do
   f count
   sleep 1000
-  run (inc count) f
+  run f (inc count)
 
 
 foreign import sleep :: Int -> Effect Unit

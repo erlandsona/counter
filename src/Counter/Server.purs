@@ -20,9 +20,10 @@ import Prelude
           ...
 --}
 -- Curious how to use recursion schemes to factor this run call...
+
 run :: Int -> Effect Unit
 run count = run =<< do
-  receive >>= case _ of
+  (receive :: Effect Msg) >>= case _ of
     Tick -> do
         pure $ inc count
 
